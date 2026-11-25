@@ -36,4 +36,13 @@ class InmuebleController extends Controller
         return redirect()->route('clientes.inmuebles.index', $cliente)
             ->with('exito', 'Inmueble registrado correctamente.');
     }
+
+    public function show(Cliente $cliente, Inmueble $inmueble)
+    {
+        return view('inmuebles.show', [
+            'cliente' => $cliente,
+            'inmueble' => $inmueble,
+            'areas' => Inmueble::AREAS,
+        ]);
+    }
 }

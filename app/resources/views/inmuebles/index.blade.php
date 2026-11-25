@@ -21,16 +21,22 @@
                     @foreach ($areas as $etiqueta)
                         <th>{{ $etiqueta }}</th>
                     @endforeach
+                    <th><span class="oculto">Ficha</span></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($inmuebles as $inmueble)
                     <tr>
-                        <td data-label="Dirección">{{ $inmueble->direccion }}</td>
+                        <td data-label="Dirección">
+                            <a href="{{ route('clientes.inmuebles.show', [$cliente, $inmueble]) }}">{{ $inmueble->direccion }}</a>
+                        </td>
                         <td data-label="Tipo">{{ ucfirst($inmueble->tipo) }}</td>
                         @foreach ($areas as $campo => $etiqueta)
                             <td data-label="{{ $etiqueta }}">{{ $inmueble->$campo }}</td>
                         @endforeach
+                        <td data-label="Ficha">
+                            <a href="{{ route('clientes.inmuebles.show', [$cliente, $inmueble]) }}">Ver ficha</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

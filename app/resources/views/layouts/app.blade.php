@@ -24,6 +24,16 @@
         .areas { border: 1px solid #e4e7eb; border-radius: 8px; margin: 1rem 0 0; padding: 0 1rem 1rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 1rem; }
         .areas legend { font-weight: 600; padding: 0 .3rem; }
         @media (min-width: 700px) { .areas { grid-template-columns: repeat(4, 1fr); } }
+        .oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+        .ficha dl { margin: 0; }
+        .ficha .dato { display: flex; justify-content: space-between; gap: 1rem; padding: .6rem 0; border-bottom: 1px solid #e4e7eb; }
+        .ficha dt { font-weight: 600; color: #52606d; }
+        .ficha dd { margin: 0; text-align: right; overflow-wrap: anywhere; }
+        .ficha h2 { font-size: 1.1rem; margin: 1.2rem 0 .6rem; }
+        .ficha-areas { display: grid; grid-template-columns: repeat(2, 1fr); gap: .6rem; }
+        @media (min-width: 700px) { .ficha-areas { grid-template-columns: repeat(4, 1fr); } }
+        .area { background: #f0f4f8; border-radius: 8px; padding: .8rem; text-align: center; }
+        .area .cantidad { display: block; font-size: 1.8rem; font-weight: 700; color: #0f766e; }
         .acciones { display: flex; gap: .5rem; margin-top: 1.2rem; flex-wrap: wrap; }
         table { width: 100%; border-collapse: collapse; background: #fff; }
         th, td { text-align: left; padding: .7rem; border-bottom: 1px solid #e4e7eb; }
