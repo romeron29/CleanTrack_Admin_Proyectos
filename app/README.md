@@ -1,58 +1,117 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CleanTrack
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema de gestión de inmuebles, tareas y tiempos para empresas de limpieza.
 
-## About Laravel
+Proyecto individual del curso **ISW-912** de la **Universidad Técnica Nacional (UTN)**, desarrollado con la metodología **Scrum**.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Funcionalidades implementadas (Sprint 1)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+| Historia | Funcionalidad | Descripción |
+| --- | --- | --- |
+| US-01 | Registro de clientes | Registrar clientes con nombre, tipo (residencial o comercial) y teléfono, y consultarlos en una lista. |
+| US-02 | Registro de inmuebles por cliente | Registrar los inmuebles de cada cliente con su dirección y tipo (casa, apartamento, oficina o local). Un cliente puede tener varios inmuebles. |
+| US-03 | Áreas del inmueble | Registrar la cantidad de habitaciones, baños, cocinas y oficinas de cada inmueble. |
+| US-04 | Ficha del inmueble | Consultar en una sola pantalla la dirección, el tipo, el cliente y las áreas de un inmueble. |
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Todos los formularios validan los datos en el servidor y muestran los errores en español. Las pantallas se adaptan a teléfonos.
 
-## Learning Laravel
+## Tecnologías
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+| Tecnología | Versión |
+| --- | --- |
+| PHP | 8.3 (desarrollado con 8.3.30) |
+| Laravel | 13 (desarrollado con 13.43.0) |
+| PostgreSQL | Base de datos de la aplicación |
+| Blade | Motor de plantillas de las vistas |
+| PHPUnit | Pruebas automatizadas |
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Requisitos
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+- **PHP 8.3 o superior**, con las extensiones `pdo_pgsql` (para PostgreSQL) y `pdo_sqlite` (para las pruebas).
+- **Composer**.
+- **PostgreSQL**.
 
-## Agentic Development
+## Instalación
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+1. Clona el repositorio y entra a la carpeta de la aplicación:
+
+   ```bash
+   git clone https://github.com/romeron29/CleanTrack_Admin_Proyectos.git
+   cd CleanTrack_Admin_Proyectos/app
+   ```
+
+2. Instala las dependencias de PHP:
+
+   ```bash
+   composer install
+   ```
+
+3. Copia el archivo de configuración de ejemplo:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+4. Crea la base de datos `cleantrack` en PostgreSQL:
+
+   ```bash
+   createdb -U postgres cleantrack
+   ```
+
+   o, desde `psql`:
+
+   ```sql
+   CREATE DATABASE cleantrack;
+   ```
+
+5. Configura PostgreSQL en el archivo `.env`. Reemplaza las líneas `DB_` (que vienen configuradas para SQLite) por las siguientes y ajusta el puerto, el usuario y la contraseña a tu instalación:
+
+   ```env
+   DB_CONNECTION=pgsql
+   DB_HOST=127.0.0.1
+   DB_PORT=5432
+   DB_DATABASE=cleantrack
+   DB_USERNAME=tu_usuario
+   DB_PASSWORD=tu_contraseña
+   ```
+
+6. Genera la clave de la aplicación:
+
+   ```bash
+   php artisan key:generate
+   ```
+
+7. Crea las tablas de la base de datos:
+
+   ```bash
+   php artisan migrate
+   ```
+
+## Ejecución
+
+Inicia el servidor de desarrollo:
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+La aplicación queda disponible en <http://127.0.0.1:8000>. El sistema empieza en la lista de clientes, en <http://127.0.0.1:8000/clientes>. Desde ahí se llega a los inmuebles de cada cliente y a la ficha de cada inmueble.
 
-## Contributing
+## Pruebas
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Ejecuta las pruebas automatizadas con:
 
-## Code of Conduct
+```bash
+php artisan test
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Las pruebas usan una base de datos SQLite en memoria, así que no modifican los datos de PostgreSQL.
 
-## Security Vulnerabilities
+## Estado del proyecto
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **Sprint 1** (24 y 25 de noviembre de 2026): completado. Incluye US-01, US-02, US-03 y US-04.
+- **Tablero del proyecto:** [GitHub Projects](https://github.com/users/romeron29/projects/3)
 
-## License
+## Autor
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Nestor Ramon Romero Borge
