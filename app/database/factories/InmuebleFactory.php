@@ -19,6 +19,10 @@ class InmuebleFactory extends Factory
             'cliente_id' => Cliente::factory(),
             'direccion' => fake()->address(),
             'tipo' => fake()->randomElement(Inmueble::TIPOS),
+            'habitaciones' => fake()->numberBetween(0, 5),
+            'banos' => fake()->numberBetween(0, 3),
+            'cocinas' => fake()->numberBetween(0, 2),
+            'oficinas' => fake()->numberBetween(0, 4),
         ];
     }
 }

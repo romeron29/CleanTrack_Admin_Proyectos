@@ -18,6 +18,9 @@
                 <tr>
                     <th>Dirección</th>
                     <th>Tipo</th>
+                    @foreach ($areas as $etiqueta)
+                        <th>{{ $etiqueta }}</th>
+                    @endforeach
                 </tr>
             </thead>
             <tbody>
@@ -25,6 +28,9 @@
                     <tr>
                         <td data-label="Dirección">{{ $inmueble->direccion }}</td>
                         <td data-label="Tipo">{{ ucfirst($inmueble->tipo) }}</td>
+                        @foreach ($areas as $campo => $etiqueta)
+                            <td data-label="{{ $etiqueta }}">{{ $inmueble->$campo }}</td>
+                        @endforeach
                     </tr>
                 @endforeach
             </tbody>

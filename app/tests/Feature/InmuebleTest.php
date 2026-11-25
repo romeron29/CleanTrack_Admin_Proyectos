@@ -168,4 +168,78 @@ class InmuebleTest extends TestCase
             ->assertSee(route('clientes.inmuebles.index', $this->cliente))
             ->assertSee('Ver inmuebles (2)');
     }
+
+    // ---------- US-03: áreas del inmueble ----------
+
+    public function test_el_formulario_muestra_las_areas_con_cero_por_defecto(): void
+    {
+        $respuesta = $this->get(route('clientes.inmuebles.create', $this->cliente))->assertOk();
+
+        foreach (Inmueble::AREAS as $campo => $etiqueta) {
+            $respuesta->assertSee($etiqueta)
+                ->assertSee('name="' . $campo . '"', false);
+        }
+    }
+
+    public function test_los_valores_de_las_areas_quedan_registrados_al_guardar(): void
+    {
+        $areas = ['habitaciones' => 3, 'banos' => 2, 'cocinas' => 1, 'oficinas' => 0];
+
+        $this->post(route('clientes.inmuebles.store', $this->cliente), $this->datosValidos($areas))
+            ->assertRedirect(route('clientes.inmuebles.index', $this->cliente))
+            ->assertSessionHasNoErrors();
+
+        $this->assertDatabaseHas('inmuebles', $areas + ['cliente_id' => $this->cliente->id]);
+
+        $inmueble = $this->cliente->inmuebles()->first();
+        $this->assertSame(3, $inmueble->habitaciones);
+        $this->assertSame(2, $inmueble->banos);
+
+        $this->get(route('clientes.inmuebles.index', $this->cliente))
+            ->assertSee('Habitaciones')
+            ->assertSee('Baños')
+            ->assertSeeInOrder(['Avenida Central, casa 25', 'Casa', '3', '2', '1', '0']);
+    }
+
+    public function test_las_areas_vacias_se_registran_como_cero(): void
+    {
+        $vacias = ['habitaciones' => '', 'banos' => '', 'cocinas' => '', 'oficinas' => ''];
+
+        $this->post(route('clientes.inmuebles.store', $this->cliente), $this->datosValidos($vacias))
+            ->assertSessionHasNoErrors();
+
+        $this->assertDatabaseHas('inmuebles', [
+            'habitaciones' => 0, 'banos' => 0, 'cocinas' => 0, 'oficinas' => 0,
+        ]);
+    }
+
+    public static function valoresInvalidos(): array
+    {
+        $casos = [];
+        $etiquetas = ['habitaciones' => 'habitaciones', 'banos' => 'baños', 'cocinas' => 'cocinas', 'oficinas' => 'oficinas'];
+
+        foreach ($etiquetas as $campo => $nombre) {
+            $casos["$campo negativo"] = [$campo, '-1', "El número de $nombre no puede ser negativo."];
+            $casos["$campo con letras"] = [$campo, 'abc', "El número de $nombre debe ser un número entero."];
+            $casos["$campo decimal"] = [$campo, '2.5', "El número de $nombre debe ser un número entero."];
+        }
+
+        return $casos;
+    }
+
+    #[DataProvider('valoresInvalidos')]
+    public function test_un_valor_negativo_o_no_numerico_se_rechaza_con_mensaje(string $campo, string $valor, string $mensaje): void
+    {
+        $this->post(route('clientes.inmuebles.store', $this->cliente), $this->datosValidos([$campo => $valor]))
+            ->assertSessionHasErrors([$campo => $mensaje]);
+
+        $this->from(route('clientes.inmuebles.create', $this->cliente))
+            ->followingRedirects()
+            ->post(route('clientes.inmuebles.store', $this->cliente), $this->datosValidos([$campo => $valor]))
+            ->assertOk()
+            ->assertSee('Revisa los datos del formulario')
+            ->assertSee($mensaje);
+
+        $this->assertDatabaseCount('inmuebles', 0);
+    }
 }

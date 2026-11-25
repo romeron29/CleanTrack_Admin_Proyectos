@@ -12,12 +12,20 @@ class InmuebleController extends Controller
     {
         $inmuebles = $cliente->inmuebles()->orderBy('direccion')->get();
 
-        return view('inmuebles.index', compact('cliente', 'inmuebles'));
+        return view('inmuebles.index', [
+            'cliente' => $cliente,
+            'inmuebles' => $inmuebles,
+            'areas' => Inmueble::AREAS,
+        ]);
     }
 
     public function create(Cliente $cliente)
     {
-        return view('inmuebles.create', ['cliente' => $cliente, 'tipos' => Inmueble::TIPOS]);
+        return view('inmuebles.create', [
+            'cliente' => $cliente,
+            'tipos' => Inmueble::TIPOS,
+            'areas' => Inmueble::AREAS,
+        ]);
     }
 
     public function store(StoreInmuebleRequest $request, Cliente $cliente)

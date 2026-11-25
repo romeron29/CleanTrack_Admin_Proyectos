@@ -26,6 +26,18 @@
         </select>
         @error('tipo') <div class="campo-error">{{ $message }}</div> @enderror
 
+        <fieldset class="areas">
+            <legend>Áreas</legend>
+            @foreach ($areas as $campo => $etiqueta)
+                <div>
+                    <label for="{{ $campo }}">{{ $etiqueta }}</label>
+                    <input id="{{ $campo }}" name="{{ $campo }}" type="number" min="0" max="999" step="1"
+                           inputmode="numeric" value="{{ old($campo, 0) }}">
+                    @error($campo) <div class="campo-error">{{ $message }}</div> @enderror
+                </div>
+            @endforeach
+        </fieldset>
+
         <div class="acciones">
             <button class="boton" type="submit">Guardar</button>
             <a class="boton secundario" href="{{ route('clientes.inmuebles.index', $cliente) }}">Cancelar</a>

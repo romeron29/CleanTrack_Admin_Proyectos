@@ -21,6 +21,9 @@
         label { display: block; font-weight: 600; margin: .8rem 0 .3rem; }
         input, select { width: 100%; padding: .6rem; font-size: 1rem; border: 1px solid #cbd2d9; border-radius: 6px; }
         .campo-error { color: #b91c1c; font-size: .9rem; margin-top: .25rem; }
+        .areas { border: 1px solid #e4e7eb; border-radius: 8px; margin: 1rem 0 0; padding: 0 1rem 1rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 1rem; }
+        .areas legend { font-weight: 600; padding: 0 .3rem; }
+        @media (min-width: 700px) { .areas { grid-template-columns: repeat(4, 1fr); } }
         .acciones { display: flex; gap: .5rem; margin-top: 1.2rem; flex-wrap: wrap; }
         table { width: 100%; border-collapse: collapse; background: #fff; }
         th, td { text-align: left; padding: .7rem; border-bottom: 1px solid #e4e7eb; }
