@@ -17,6 +17,7 @@
                     <th>Nombre</th>
                     <th>Tipo</th>
                     <th>Teléfono</th>
+                    <th>Inmuebles</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,6 +26,9 @@
                         <td data-label="Nombre">{{ $cliente->nombre }}</td>
                         <td data-label="Tipo">{{ ucfirst($cliente->tipo) }}</td>
                         <td data-label="Teléfono">{{ $cliente->telefono }}</td>
+                        <td data-label="Inmuebles">
+                            <a href="{{ route('clientes.inmuebles.index', $cliente) }}">Ver inmuebles ({{ $cliente->inmuebles_count }})</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
